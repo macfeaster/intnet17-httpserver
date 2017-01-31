@@ -12,4 +12,12 @@ public class HtmlResponseBody extends HttpBody {
 	public String getBody() {
 		return body;
 	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public void appendBody(String body) {
+		this.body += body;
+	}
 }

@@ -4,4 +4,8 @@ public abstract class HttpBody {
 
 	private BodyType bodyType;
 	public abstract String getBody();
+
+	public BodyType getBodyType() {
+		return bodyType;
+	}
 }
