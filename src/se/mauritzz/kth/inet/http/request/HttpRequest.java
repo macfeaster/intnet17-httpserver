@@ -3,7 +3,6 @@ package se.mauritzz.kth.inet.http.request;
 import se.mauritzz.kth.inet.http.GenericHttpPayload;
 import se.mauritzz.kth.inet.http.body.BodyType;
 import se.mauritzz.kth.inet.http.body.FormRequestBody;
-import se.mauritzz.kth.inet.http.body.HttpBody;
 import se.mauritzz.kth.inet.http.common.HttpCookies;
 import se.mauritzz.kth.inet.http.common.HttpHeaders;
 import se.mauritzz.kth.inet.http.common.UrlEncodedData;
@@ -12,12 +11,14 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Represents an incoming HTTP request object.
+ */
 public class HttpRequest extends GenericHttpPayload {
 
 	private RequestType requestType;
 	private String path;
 	private UrlEncodedData queryString;
-	private HttpBody body;
 
 	private HttpRequest(RequestType requestType) {
 		super();
@@ -55,7 +56,7 @@ public class HttpRequest extends GenericHttpPayload {
 			req.queryString = UrlEncodedData.deserialize(url[1]);
 
 		// Parse request cookies
-		String cookies = req.getHeaders().get("Cookie");
+		String cookies = req.headers.get("Cookie");
 		if (cookies != null && cookies.length() > 0)
 			req.cookies = HttpCookies.deserialize(cookies);
 
@@ -86,7 +87,6 @@ public class HttpRequest extends GenericHttpPayload {
 	public RequestType getRequestType() { return requestType; }
 	public UrlEncodedData getQueryString() { return queryString; }
 	public HttpCookies getCookies() { return cookies; }
-	public HttpBody getBody() { return body; }
 
 	@Override
 	public String toString() {

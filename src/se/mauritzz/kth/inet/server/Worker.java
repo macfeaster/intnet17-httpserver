@@ -1,9 +1,13 @@
 package se.mauritzz.kth.inet.server;
 
 import se.mauritzz.kth.inet.http.request.HttpRequest;
+import se.mauritzz.kth.inet.http.request.RequestType;
+import se.mauritzz.kth.inet.http.response.HttpResponse;
+import se.mauritzz.kth.inet.http.response.ResponseType;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 public class Worker implements Runnable {
 	Socket socket;
@@ -16,12 +20,20 @@ public class Worker implements Runnable {
 	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
-			OutputStream out = socket.getOutputStream();
 			HttpRequest req = capture(in);
 
 			System.out.println(req);
 		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				OutputStream out = socket.getOutputStream();
+				HttpResponse res = new HttpResponse(ResponseType.SERVER_ERROR);
+				out.write(res.serialize().getBytes());
+				out.flush();
+				socket.close();
+			} catch (IOException ex) {
+				Logger.getGlobal().severe("Failed to send Server Error response: " + ex.getMessage());
+				ex.printStackTrace();
+			}
 		}
 	}
 
@@ -38,13 +50,13 @@ public class Worker implements Runnable {
 		}
 
 		// Parse the HTTP request and its headers
-		return HttpRequest.parseRequest(buffer.toString());
+		HttpRequest req = HttpRequest.parseRequest(buffer.toString());
 
-		/* prep for POST
 		if (req.getRequestType() == RequestType.POST) {
-			if (req.getmHeaders().get("Content-Type"))
+
 		}
-		*/
+
+		return req;
 	}
 
 

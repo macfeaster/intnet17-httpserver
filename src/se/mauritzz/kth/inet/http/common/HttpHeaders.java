@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class HttpHeaders {
 
@@ -15,7 +16,7 @@ public class HttpHeaders {
 	 * is a sequence of any characters, where trailing whitespace is ignored.
 	 * Does not error on invalid headers, but simply ignores them.
 	 *
-	 * @param raw       String representation of HTTP headers, as Key: value
+	 * @param raw       An HttpHeaders object containing all the found and parsed key-value pairs
 	 */
 	public static HttpHeaders deserialize(String raw) {
 		// Find and parse HTTP headers
@@ -28,6 +29,19 @@ public class HttpHeaders {
 			headers.headers.put(matcher.group(1), matcher.group(2).trim());
 
 		return headers;
+	}
+
+	/**
+	 * Serialize headers into HTTP text form, namely the Key: Value syntax, separated by newlines.
+	 * Does not include a trailing newline.
+	 *
+	 * @return          String representation of HTTP headers, as Key: Value
+	 */
+	public String serialize() {
+		return headers.entrySet()
+				.stream()
+				.map(e -> e.getKey() + ": " + e.getValue())
+				.collect(Collectors.joining("\n"));
 	}
 
 	/**
