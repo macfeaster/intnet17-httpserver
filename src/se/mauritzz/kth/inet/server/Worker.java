@@ -42,7 +42,7 @@ public class Worker implements Runnable {
 
 		/* prep for POST
 		if (req.getRequestType() == RequestType.POST) {
-			if (req.getHeaders().get("Content-Type"))
+			if (req.getmHeaders().get("Content-Type"))
 		}
 		*/
 	}
