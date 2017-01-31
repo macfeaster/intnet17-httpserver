@@ -22,7 +22,9 @@ public class Worker implements Runnable {
 			InputStream in = socket.getInputStream();
 			HttpRequest req = capture(in);
 
-			System.out.println(req);
+			OutputStream out = socket.getOutputStream();
+
+
 		} catch (IOException e) {
 			try {
 				OutputStream out = socket.getOutputStream();
