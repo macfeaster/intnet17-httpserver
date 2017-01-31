@@ -19,7 +19,7 @@ public class HttpHeaders {
 	 */
 	public static HttpHeaders deserialize(String raw) {
 		// Find and parse HTTP headers
-		Pattern pattern = Pattern.compile("^([a-zA-Z-]+): (.+)$");
+		Pattern pattern = Pattern.compile("([a-zA-Z-]+): (.+)");
 		Matcher matcher = pattern.matcher(raw);
 		HttpHeaders headers = new HttpHeaders();
 

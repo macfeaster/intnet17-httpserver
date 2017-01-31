@@ -35,7 +35,7 @@ public class HttpRequest extends GenericHttpPayload {
 	 */
 	public static HttpRequest parseRequest(String raw) throws IOException {
 		// Check first line
-		String[] request = raw.split("\r\n|\r|\n", 2);
+		String[] request = raw.split("\n", 2);
 		String headerLine = request[0];
 		Pattern pattern = Pattern.compile("^(GET|HEAD|POST|PUT|DELETE) (.*) HTTP\\/1.1$");
 		Matcher m = pattern.matcher(headerLine);
