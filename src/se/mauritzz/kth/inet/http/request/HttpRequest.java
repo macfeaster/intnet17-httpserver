@@ -1,4 +1,8 @@
-package se.mauritzz.kth.inet.http;
+package se.mauritzz.kth.inet.http.request;
+
+import se.mauritzz.kth.inet.http.GenericHttpPayload;
+import se.mauritzz.kth.inet.http.body.BodyType;
+import se.mauritzz.kth.inet.http.body.HttpBody;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,6 +17,7 @@ public class HttpRequest extends GenericHttpPayload {
 	private String path;
 	private Map<String, String> queryString;
 	private Map<String, String> cookies;
+	private HttpBody body;
 
 	private HttpRequest(RequestType requestType, String headerLine) {
 		super();
@@ -23,10 +28,13 @@ public class HttpRequest extends GenericHttpPayload {
 	}
 
 	/**
-	 * Build
-	 * @param raw
-	 * @return
-	 * @throws IOException
+	 * Deserialize an HTTP text input string to an HttpRequest object.
+	 * Checks HTTP header and only parses valid header and cookie data.
+	 * Ignores all other input, regardless of its validity.
+	 *
+	 * @param raw           HTTP request text
+	 * @return              HttpRequest object, de
+	 * @throws IOException  On malformed HTTP input data
 	 */
 	public static HttpRequest parseRequest(String raw) throws IOException {
 		// Check first line
@@ -48,29 +56,45 @@ public class HttpRequest extends GenericHttpPayload {
 		return req;
 	}
 
-	private void parseHeaders(String raw) {
-		// Find and parse HTTP headers
-		Pattern headerPattern = Pattern.compile("^([a-zA-Z-]+): (.+)$");
-		Matcher headers = headerPattern.matcher(raw);
-		Map<String, String> httpHeaders = this.getHeaders();
+	/**
+	 * {@inheritDoc}
+	 *
+	 * For HTTP client requests, incoming cookies are also parsed and stored.
+	 */
+	@Override
+	protected void parseHeaders(String raw) {
+		super.parseHeaders(raw);
 
-		// Populate our header table - parse cookies when encountered
-		while (headers.matches()) {
-			if (headers.group(1).equals("Cookie"))
-				this.parseCookies(headers.group(2));
-			else
-				httpHeaders.put(headers.group(1), headers.group(2));
-		}
+		String cookies = getHeaders().get("Cookie");
+		if (cookies.length() > 0)
+			parseCookies(cookies);
 	}
 
 	private void parseCookies(String raw) {
 		// Find and match cookies according to HTTP spec
-		Pattern cookiePattern = Pattern.compile("([a-zA-Z0-9-_]+)=([!-+--:<-~]+)(?:; )?");
+		Pattern cookiePattern = Pattern.compile("([a-zA-Z0-9-_.]+)=([!-+--:<-~]+)(?:; )?");
 		Matcher matcher = cookiePattern.matcher(raw);
 
 		// Modify the request object cookie map by reference
 		while (matcher.matches())
 			cookies.put(matcher.group(1), matcher.group(2));
+	}
+
+	/*
+	 * POST-specific logic
+	 */
+
+	public void parseBody() throws IOException {
+		// Check request type
+		if (requestType != RequestType.POST)
+			throw new IOException("Only POST requests can have request bodies.");
+
+		// Check content type
+		BodyType bodyType = BodyType.fromString(getHeaders().get("Content-Type"));
+		if (bodyType != BodyType.FORM_URLENCODED)
+			throw new IOException("Only " + BodyType.FORM_URLENCODED.toString() + " body type allowed.");
+
+		
 	}
 
 	public String getPath() { return path; }
@@ -79,5 +103,13 @@ public class HttpRequest extends GenericHttpPayload {
 	public Map<String, String> getCookies() { return cookies; }
 
 	@Override
-	public String getHeaderLine() { return headerLine; }
+	public String toString() {
+		return "HttpRequest{" +
+				"requestType=" + requestType +
+				", headerLine='" + headerLine + '\'' +
+				", path='" + path + '\'' +
+				", queryString=" + queryString +
+				", cookies=" + cookies +
+				'}';
+	}
 }

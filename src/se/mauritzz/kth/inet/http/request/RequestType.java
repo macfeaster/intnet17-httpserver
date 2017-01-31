@@ -1,4 +1,4 @@
-package se.mauritzz.kth.inet.http;
+package se.mauritzz.kth.inet.http.request;
 
 public enum RequestType {
 	GET,
