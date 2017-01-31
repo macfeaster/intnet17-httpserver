@@ -58,4 +58,8 @@ public class HttpCookies {
 		return cookies.put(key, value);
 	}
 
+	@Override
+	public String toString() {
+		return cookies.toString();
+	}
 }

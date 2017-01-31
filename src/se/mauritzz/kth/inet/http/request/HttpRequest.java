@@ -94,6 +94,7 @@ public class HttpRequest extends GenericHttpPayload {
 				"requestType=" + requestType +
 				", path='" + path + '\'' +
 				", headers=" + getHeaders() +
+				", cookies=" + getCookies() +
 				", queryString=" + queryString +
 				", body=" + body +
 				'}';

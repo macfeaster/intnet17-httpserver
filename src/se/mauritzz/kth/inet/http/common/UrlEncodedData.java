@@ -53,4 +53,9 @@ public class UrlEncodedData {
 	public String put(String key, String value) {
 		return data.put(key, value);
 	}
+
+	@Override
+	public String toString() {
+		return data.toString();
+	}
 }

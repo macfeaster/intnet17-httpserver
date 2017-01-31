@@ -44,4 +44,8 @@ public class HttpHeaders {
 		return headers.put(key, value);
 	}
 
+	@Override
+	public String toString() {
+		return headers.toString();
+	}
 }
