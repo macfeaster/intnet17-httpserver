@@ -3,26 +3,16 @@ package se.mauritzz.kth.inet.http;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericHttpPayload {
-	private RequestType requestType;
+public abstract class GenericHttpPayload {
 	private Map<String, String> headers;
-	private Map<String, String> cookies;
 
-	public GenericHttpPayload(RequestType requestType) {
-		this.requestType = requestType;
+	public GenericHttpPayload() {
 		this.headers = new HashMap<>();
-		this.cookies = new HashMap<>();
 	}
 
-	public RequestType getRequestType() {
-		return requestType;
-	}
+	public abstract String getHeaderLine();
 
 	public Map<String, String> getHeaders() {
 		return headers;
-	}
-
-	public Map<String, String> getCookies() {
-		return cookies;
 	}
 }

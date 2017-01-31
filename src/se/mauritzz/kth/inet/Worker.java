@@ -1,7 +1,8 @@
 package se.mauritzz.kth.inet;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import se.mauritzz.kth.inet.http.HttpRequest;
+
+import java.io.*;
 import java.net.Socket;
 
 public class Worker implements Runnable {
@@ -18,6 +19,17 @@ public class Worker implements Runnable {
 		OutputStream out = socket.getOutputStream();
 
 
+	}
+
+	public static HttpRequest capture(InputStream in) throws IOException {
+		String line;
+		StringBuilder buffer = new StringBuilder();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+		while ((line = reader.readLine()) != null)
+			buffer.append(line);
+
+		return HttpRequest.parseRequest(buffer.toString());
 	}
 
 

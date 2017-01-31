@@ -57,7 +57,7 @@ public class Bootstrap {
 				connection = listener.accept();
 
 				// Run connection handler
-				Worker worker = new Worker();
+				Worker worker = new Worker(connection);
 				Thread thread = new Thread(worker);
 				thread.start();
 				logger.info("Thread " + thread.getId() + " assigned to incoming client " + connection.hashCode() + ".");
