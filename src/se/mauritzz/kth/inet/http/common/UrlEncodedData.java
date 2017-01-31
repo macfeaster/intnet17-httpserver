@@ -22,7 +22,7 @@ public class UrlEncodedData {
 		Matcher matcher = pattern.matcher(raw);
 		UrlEncodedData data = new UrlEncodedData();
 
-		while (matcher.matches())
+		while (matcher.find())
 			data.put(matcher.group(1), matcher.group(2));
 
 		return data;

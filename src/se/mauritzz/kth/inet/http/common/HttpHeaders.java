@@ -24,7 +24,7 @@ public class HttpHeaders {
 		HttpHeaders headers = new HttpHeaders();
 
 		// Populate our header table - parse cookies when encountered
-		while (matcher.matches())
+		while (matcher.find())
 			headers.headers.put(matcher.group(1), matcher.group(2).trim());
 
 		return headers;
