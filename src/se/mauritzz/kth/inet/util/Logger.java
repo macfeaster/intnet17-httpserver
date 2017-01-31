@@ -1,30 +1,26 @@
 package se.mauritzz.kth.inet.util;
 
 public class Logger {
-	private static Logger instance;
-	private static java.util.logging.Logger logger;
+	private java.util.logging.Logger impl;
 
-	public static Logger getInstance() {
-		if (instance == null) {
-			instance = new Logger();
-			logger = java.util.logging.Logger.getAnonymousLogger();
-		}
-
-		return instance;
+	public static Logger get(String name) {
+		Logger logger = new Logger();
+		logger.impl = java.util.logging.Logger.getLogger(name);
+		return logger;
 	}
 
 	public Logger info(Object message) {
-		logger.info(message.toString());
-		return instance;
+		impl.info(message.toString());
+		return this;
 	}
 
 	public Logger warning(Object message) {
-		logger.warning(message.toString());
-		return instance;
+		impl.warning(message.toString());
+		return this;
 	}
 
 	public Logger severe(Object message) {
-		logger.severe(message.toString());
-		return instance;
+		impl.severe(message.toString());
+		return this;
 	}
 }

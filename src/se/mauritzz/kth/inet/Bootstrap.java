@@ -11,6 +11,7 @@
 package se.mauritzz.kth.inet;
 
 import se.mauritzz.kth.inet.util.Logger;
+import se.mauritzz.kth.inet.server.Worker;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,7 +32,7 @@ public class Bootstrap {
 		}
 
 		// Configure the server and required instances
-		Logger logger = Logger.getInstance();
+		Logger logger = Logger.get(Bootstrap.class.getName());
 
 		// Set up required variables
 		int port = (Integer.parseInt(args[0]) > 0) ? Integer.parseInt(args[0]) : 4000;
