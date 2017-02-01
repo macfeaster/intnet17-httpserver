@@ -38,7 +38,7 @@ public class Bootstrap {
 
 		// Set up required variables
 		int port = (Integer.parseInt(args[0]) > 0) ? Integer.parseInt(args[0]) : 4000;
-		int maxConnections = 250;
+		int maxConnections = 750;
 		int i = 0;
 
 		// Log startup

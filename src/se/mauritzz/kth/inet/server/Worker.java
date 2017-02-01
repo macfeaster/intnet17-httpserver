@@ -58,6 +58,7 @@ public class Worker implements Runnable {
 				// If everything fails, just log it
 				Logger.getGlobal().severe("Failed to send Server Error response: " + ex.getMessage());
 				ex.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
