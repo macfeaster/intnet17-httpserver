@@ -2,20 +2,15 @@
 <html>
 <head>
     <title>Guess The Number</title>
-
-    <!-- Google Fonts -->
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-
-    <!-- CSS Reset -->
     <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-
-    <!-- Milligram CSS minified -->
     <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 </head>
 <body>
 
 <div class="container">
     <h1>This is a {{ variable }}!</h1>
+    <h2>The GET parameter <code>plopp</code> is currently set to <code>{{ plopp }}</code>!</h2>
     <form>
         <fieldset>
             <label for="nameField">Name</label>
@@ -28,7 +23,7 @@
                 <option value="24+">24+</option>
             </select>
             <label for="commentField">Comment</label>
-            <textarea placeholder="Hi CJ …" id="commentField"></textarea>
+            <textarea placeholder="Hi CJ öäå" id="commentField"></textarea>
             <div class="float-right">
                 <input type="checkbox" id="confirmField">
                 <label class="label-inline" for="confirmField">Send a copy to yourself</label>

@@ -12,9 +12,10 @@ import java.util.Map;
 public class Application implements Process {
 
 	@Override
-	public HttpResponse doGet(HttpRequest request) throws IOException {
+	public HttpResponse doGet(HttpRequest req) throws IOException {
 		Map<String, String> model = new HashMap<>();
 		model.put("variable", "Variable :D");
+		model.put("plopp", req.getQueryString().get("plopp"));
 
 		return new HttpResponse(ResponseType.OK, TemplateEngine.render("start", model));
 	}
