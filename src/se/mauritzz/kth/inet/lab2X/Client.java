@@ -1,8 +1,12 @@
 package se.mauritzz.kth.inet.lab2X;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,22 +15,44 @@ public class Client {
 	private static final String charset = StandardCharsets.UTF_8.name();
 
 	public static void main(String[] args) throws Exception {
-		Client client = new Client();
 		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-		client.sendGet();
-		client.makeGuesses();
+
+		int runs = 100;
+		double sum = 0.0;
+		int[] results = new int[runs];
+		for (int i = 0; i < runs; i++) {
+			Client client = new Client();
+			client.sendGet();
+			results[i] = client.makeGuesses();
+			sum += results[i];
+		}
+
+		System.out.println(Arrays.toString(results));
+		System.out.println("Average is: " + sum / 100);
 	}
 
-	private void makeGuesses() throws Exception {
-		makeGuess(50);
+	private int makeGuesses() throws Exception {
+		Tuple guess = makeGuess(50);
+		int i = 1;
+
+		while (guess.x != guess.y) {
+			int middle = (guess.x + guess.y) / 2;
+			guess = makeGuess(middle);
+			i++;
+		}
+
+		return i;
 	}
 
 	private Tuple makeGuess(int guess) throws Exception {
 		String res = sendPost("guess=" + guess);
-		Pattern pattern = Pattern.compile("Make a new guess between <strong>(\\d+)<\\/strong> and <strong>(\\d+)<\\/strong>");
+		Pattern pattern = Pattern.compile("Make a new guess between <strong>(\\d+).* and <strong>(\\d+)");
 		Matcher matcher = pattern.matcher(res);
 
-		return new Tuple(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+		if (!matcher.find())
+			return new Tuple(guess, guess);
+		else
+			return new Tuple(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
 	}
 
 	@SuppressWarnings("unused")
@@ -70,5 +96,13 @@ public class Client {
 
 		int x;
 		int y;
+
+		@Override
+		public String toString() {
+			return "Tuple{" +
+					"x=" + x +
+					", y=" + y +
+					'}';
+		}
 	}
 }
