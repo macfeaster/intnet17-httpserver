@@ -20,11 +20,12 @@
     <p>&nbsp;</p>
     <h1>You guessed <strong>{{ guess }}</strong>!</h1>
     <h3>That was <code>{{ message }}</code></h3>
-    <h4>You've made {{ count }} guesses so far!</h4>
+    <h4>Make a new guess between <strong>{{ min }}</strong> and <strong>{{ max }}</strong></h4>
+    <h5>You've made {{ count }} guesses so far!</h5>
     <form action="/what" method="post">
         <fieldset>
             <label for="guessField">Make another guess:</label>
-            <input name="guess" type="number" min="0" max="100" placeholder="42" id="guessField">
+            <input name="guess" type="number" min="{{ min }}" max="{{ max }}" placeholder="42" id="guessField">
             <div style="text-align: center;">
                 <input class="button-primary button-large" type="submit" value="Send">
             </div>

@@ -54,6 +54,8 @@ public class Application implements Process {
 		model.put("count", "" + session.getCount());
 		model.put("sessionID", sessionID);
 		model.put("title", "You're Guessing...");
+		model.put("max", "" + session.getMax());
+		model.put("min", "" + session.getMin());
 
 		if (result) {
 			sessionStore.remove(sessionID);

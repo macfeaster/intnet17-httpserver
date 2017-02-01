@@ -5,6 +5,7 @@ import se.mauritzz.kth.inet.http.body.HtmlResponseBody;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,7 @@ class TemplateEngine {
 		// Find variables to be replaced
 		Pattern pattern = Pattern.compile("\\{\\{[ ]*(\\w+)[ ]*}}");
 		Matcher matcher = pattern.matcher(line);
+		Map<String, String> replacements = new HashMap<>();
 
 		// Loop through every variable
 		while (matcher.find()) {
@@ -41,10 +43,14 @@ class TemplateEngine {
 
 			// Replace template literal with variable data, or simply remove it for non-existent data
 			if (data.get(variable) != null)
-				line = line.replace(replace, data.get(variable));
+				replacements.put(replace, data.get(variable));
 			else
-				line = line.replace(replace, "");
+				replacements.put(replace, "");
 		}
+
+		// Do the actual string replacements after we've found all of them to avoid garbled strings
+		for (Map.Entry<String, String> e : replacements.entrySet())
+			line = line.replace(e.getKey(), e.getValue());
 
 		return line;
 	}
