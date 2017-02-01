@@ -10,6 +10,7 @@
 
 package se.mauritzz.kth.inet;
 
+import se.mauritzz.kth.inet.application.Application;
 import se.mauritzz.kth.inet.util.Logger;
 import se.mauritzz.kth.inet.server.Worker;
 
@@ -33,6 +34,7 @@ public class Bootstrap {
 
 		// Configure the server and required instances
 		Logger logger = Logger.get(Bootstrap.class.getName());
+		Application app = new Application();
 
 		// Set up required variables
 		int port = (Integer.parseInt(args[0]) > 0) ? Integer.parseInt(args[0]) : 4000;
@@ -58,7 +60,7 @@ public class Bootstrap {
 				connection = listener.accept();
 
 				// Run connection handler
-				Worker worker = new Worker(connection);
+				Worker worker = new Worker(connection, app);
 				Thread thread = new Thread(worker);
 				thread.start();
 				logger.info("Thread " + thread.getId() + " assigned to incoming client " + connection.hashCode() + ".");

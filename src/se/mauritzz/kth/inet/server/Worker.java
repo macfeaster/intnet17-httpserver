@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 
 public class Worker implements Runnable {
 	private Socket socket;
+	private Application app;
 
-	public Worker(Socket socket) {
+	public Worker(Socket socket, Application app) {
+		this.app = app;
 		this.socket = socket;
 	}
 
@@ -28,7 +30,7 @@ public class Worker implements Runnable {
 			InputStream in = socket.getInputStream();
 			HttpRequest req = capture(in);
 			OutputStream out = socket.getOutputStream();
-			HttpResponse res = handleRequest(req);
+			HttpResponse res = handleRequest(req, app);
 
 			// Guard against dumb application code
 			if (res == null)
@@ -86,9 +88,7 @@ public class Worker implements Runnable {
 		return req;
 	}
 
-	private HttpResponse handleRequest(HttpRequest req) throws IOException {
-		Application app = new Application();
-
+	private HttpResponse handleRequest(HttpRequest req, Application app) throws IOException {
 		// Call different application methods depending on protocol
 		switch (req.getRequestType()) {
 			case GET:
