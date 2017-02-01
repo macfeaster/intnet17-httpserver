@@ -5,6 +5,7 @@ public class HtmlResponseBody extends HttpBody {
 	String body;
 
 	public HtmlResponseBody(String body) {
+		super(BodyType.TEXT_HTML);
 		this.body = body;
 	}
 

@@ -1,7 +1,7 @@
 package se.mauritzz.kth.inet.server;
 
 import se.mauritzz.kth.inet.application.Application;
-import se.mauritzz.kth.inet.http.body.HtmlResponseBody;
+import se.mauritzz.kth.inet.http.body.PlainTextResponseBody;
 import se.mauritzz.kth.inet.http.request.HttpRequest;
 import se.mauritzz.kth.inet.http.request.RequestType;
 import se.mauritzz.kth.inet.http.response.HttpResponse;
@@ -39,7 +39,10 @@ public class Worker implements Runnable {
 			try {
 				// Build 500 response
 				OutputStream out = socket.getOutputStream();
-				HttpResponse res = new HttpResponse(ResponseType.SERVER_ERROR, new HtmlResponseBody(e.getMessage()));
+				StringWriter error = new StringWriter();
+				PrintWriter writer = new PrintWriter(error);
+				e.printStackTrace(writer);
+				HttpResponse res = new HttpResponse(ResponseType.SERVER_ERROR, new PlainTextResponseBody(error.toString()));
 
 				// Send it back to the client
 				out.write(res.serialize().getBytes());

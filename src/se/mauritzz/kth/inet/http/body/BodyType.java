@@ -3,16 +3,17 @@ package se.mauritzz.kth.inet.http.body;
 public enum BodyType {
 	FORM_URLENCODED {
 		@Override
-		public String toString() {
-			return "application/x-www-form-urlencoded";
-		}
+		public String toString() { return "application/x-www-form-urlencoded"; }
 	},
 
 	TEXT_HTML {
 		@Override
-		public String toString() {
-			return "text/html";
-		}
+		public String toString() { return "text/html"; }
+	},
+
+	TEXT_PLAIN {
+		@Override
+		public String toString() { return "text/plain"; }
 	};
 
 	public static BodyType fromString(String raw) {

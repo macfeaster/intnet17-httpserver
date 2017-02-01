@@ -7,6 +7,7 @@ public class FormRequestBody extends HttpBody {
 	private UrlEncodedData data;
 
 	public FormRequestBody(String raw) {
+		super(BodyType.FORM_URLENCODED);
 		data = UrlEncodedData.deserialize(raw);
 	}
 
