@@ -53,6 +53,7 @@ public class Application implements Process {
 		model.put("guess", "" + guess);
 		model.put("count", "" + session.getCount());
 		model.put("sessionID", sessionID);
+		model.put("title", "You're Guessing...");
 
 		if (result) {
 			sessionStore.remove(sessionID);

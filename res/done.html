@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <style>
+        .button-primary.button-large {
+          font-size: 1.4rem;
+          height: 4.5rem;
+          line-height: 4.5rem;
+          padding: 0 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 650px;">
+    <p>&nbsp;</p>
+    <h1><strong>JEEVES!</strong></h1>
+    <h3>You guessed <code>{{ guess }} correctly!</code></h3>
+    <h4>It took you {{ count }} guesses</h4>
+    <a href="/">
+        <input class="button-primary button-large" type="submit" value="Play Again">
+    </a>
+    <small>Session ID {{ sessionID }}</small>
+</div>
+
+</body>
+</html>
