@@ -22,6 +22,10 @@ public class HttpResponse extends GenericHttpPayload {
 		this.body = body;
 	}
 
+	public void setBody(HttpBody body) {
+		this.body = body;
+	}
+
 	public String serialize() {
 		// Fill in Content-Type header
 		headers.put("Content-Type", body.getBodyType().toString());
