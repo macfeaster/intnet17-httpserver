@@ -15,4 +15,8 @@ public class FormRequestBody extends HttpBody {
 	public String getBody() {
 		return data.serialize();
 	}
+
+	public UrlEncodedData getData() {
+		return data;
+	}
 }

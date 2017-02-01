@@ -1,5 +1,8 @@
 package se.mauritzz.kth.inet.application;
 
+import se.mauritzz.kth.inet.http.body.FormRequestBody;
+import se.mauritzz.kth.inet.http.body.PlainTextResponseBody;
+import se.mauritzz.kth.inet.http.common.UrlEncodedData;
 import se.mauritzz.kth.inet.http.request.HttpRequest;
 import se.mauritzz.kth.inet.http.response.HttpResponse;
 import se.mauritzz.kth.inet.http.response.ResponseType;
@@ -21,7 +24,9 @@ public class Application implements Process {
 	}
 
 	@Override
-	public HttpResponse doPost(HttpRequest request) throws IOException {
-		return null;
+	public HttpResponse doPost(HttpRequest req) throws IOException {
+		UrlEncodedData body = ((FormRequestBody) req.getBody()).getData();
+		String guess = body.get("guess");
+		return new HttpResponse(ResponseType.OK, new PlainTextResponseBody("You guessed " + guess));
 	}
 }

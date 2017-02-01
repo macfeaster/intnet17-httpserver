@@ -30,6 +30,10 @@ public class Worker implements Runnable {
 			OutputStream out = socket.getOutputStream();
 			HttpResponse res = handleRequest(req);
 
+			// Guard against dumb application code
+			if (res == null)
+				throw new IOException("HttpResponse cannot be null.");
+
 			// Send it back to the client
 			out.write(res.serialize().getBytes());
 			out.flush();
@@ -58,21 +62,25 @@ public class Worker implements Runnable {
 
 	private HttpRequest capture(InputStream in) throws IOException {
 		String line;
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
+		// Read all headers
 		while ((line = reader.readLine()) != null) {
 			if (line.length() == 0)
 				break;
-
-			buffer.append(line).append("\n");
+			buf.append(line).append("\n");
 		}
 
 		// Parse the HTTP request and its headers
-		HttpRequest req = HttpRequest.parseRequest(buffer.toString());
+		HttpRequest req = HttpRequest.parseRequest(buf.toString());
 
+		// Read and parse request body
 		if (req.getRequestType() == RequestType.POST) {
-
+			int length = Integer.parseInt(req.getHeaders().get("Content-Length"));
+			char[] buffer = new char[length];
+			if (reader.read(buffer, 0, length) != -1)
+				req.parseBody(new String(buffer));
 		}
 
 		return req;
@@ -81,6 +89,7 @@ public class Worker implements Runnable {
 	private HttpResponse handleRequest(HttpRequest req) throws IOException {
 		Application app = new Application();
 
+		// Call different application methods depending on protocol
 		switch (req.getRequestType()) {
 			case GET:
 				return app.doGet(req);
