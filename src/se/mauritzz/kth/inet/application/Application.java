@@ -60,7 +60,7 @@ public class Application implements Process {
 			return new HttpResponse(ResponseType.OK, TemplateEngine.render("done", model));
 		} else {
 			int diff = session.compareTo(guess);
-			if (diff > 1)
+			if (diff > 0)
 				model.put("message", "Too low!");
 			else
 				model.put("message", "Too high!");
