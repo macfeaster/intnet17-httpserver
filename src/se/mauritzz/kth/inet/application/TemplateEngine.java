@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 
 class TemplateEngine {
 
-	private static final String OPENING_DELIMETER = "\\{\\{";
-	private static final String CLOSING_DELIMETER = "}}";
-
 	private Map<String, String> data;
 
 	private TemplateEngine(Map<String, String> data) {
@@ -26,20 +23,16 @@ class TemplateEngine {
 	}
 
 	private String render(String viewPath) throws IOException {
-		return Files.readAllLines(Paths.get(viewPath))
+		return Files.readAllLines(Paths.get("res/" + viewPath + ".html"))
 				.stream()
-				.map(l -> l.contains(OPENING_DELIMETER) ? processLine(l) : l)
+				.map(l -> l.contains("{{") ? processLine(l) : l)
 				.collect(Collectors.joining("\n"));
 	}
 
 	private String processLine(String line) {
 		// Find variables to be replaced
-		Pattern pattern = Pattern.compile(OPENING_DELIMETER + "[ ]*(\\w+)[ ]*" + CLOSING_DELIMETER);
+		Pattern pattern = Pattern.compile("\\{\\{[ ]*(\\w+)[ ]*}}");
 		Matcher matcher = pattern.matcher(line);
-
-		// Malformed data is just printed out as is
-		if (!matcher.matches())
-			return line;
 
 		// Loop through every variable
 		while (matcher.find()) {

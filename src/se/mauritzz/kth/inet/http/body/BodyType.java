@@ -8,7 +8,7 @@ public enum BodyType {
 
 	TEXT_HTML {
 		@Override
-		public String toString() { return "text/html"; }
+		public String toString() { return "text/html; charset=utf8"; }
 	},
 
 	TEXT_PLAIN {

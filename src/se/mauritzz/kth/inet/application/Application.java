@@ -16,7 +16,7 @@ public class Application implements Process {
 		Map<String, String> model = new HashMap<>();
 		model.put("variable", "Variable :D");
 
-		return new HttpResponse(ResponseType.OK, TemplateEngine.render("start.html", model));
+		return new HttpResponse(ResponseType.OK, TemplateEngine.render("start", model));
 	}
 
 	@Override
