@@ -1,5 +1,7 @@
 package se.mauritzz.kth.inet.application;
 
+import se.mauritzz.kth.inet.http.body.HtmlResponseBody;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,18 +10,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class TemplateEngine {
+class TemplateEngine {
 
 	private static final String OPENING_DELIMETER = "\\{\\{";
 	private static final String CLOSING_DELIMETER = "}}";
 
 	private Map<String, String> data;
 
-	public TemplateEngine(Map<String, String> data) {
+	private TemplateEngine(Map<String, String> data) {
 		this.data = data;
 	}
 
-	public String render(String viewPath) throws IOException {
+	static HtmlResponseBody render(String viewPath, Map<String, String> data) throws IOException {
+		return new HtmlResponseBody(new TemplateEngine(data).render(viewPath));
+	}
+
+	private String render(String viewPath) throws IOException {
 		return Files.readAllLines(Paths.get(viewPath))
 				.stream()
 				.map(l -> l.contains(OPENING_DELIMETER) ? processLine(l) : l)
