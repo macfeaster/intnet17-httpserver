@@ -11,12 +11,12 @@
 package se.mauritzz.kth.inet;
 
 import se.mauritzz.kth.inet.application.Application;
-import se.mauritzz.kth.inet.util.Logger;
 import se.mauritzz.kth.inet.server.Worker;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 public class Bootstrap {
 
@@ -33,7 +33,7 @@ public class Bootstrap {
 		}
 
 		// Configure the server and required instances
-		Logger logger = Logger.get(Bootstrap.class.getName());
+		Logger logger = Logger.getLogger(Bootstrap.class.getName());
 		Application app = new Application();
 
 		// Set up required variables
@@ -42,9 +42,9 @@ public class Bootstrap {
 		int i = 0;
 
 		// Log startup
-		logger.info("Bootstrapping server...")
-				.info("Server starting on port " + port)
-				.info("Maximum number of clients is " + maxConnections);
+		logger.info("Bootstrapping server...");
+		logger.info("Server starting on port " + port);
+		logger.info("Maximum number of clients is " + maxConnections);
 
 		try
 		{
