@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Guess The Number</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
     <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <style>
+        .button-primary.button-large {
+          font-size: 1.4rem;
+          height: 4.5rem;
+          line-height: 4.5rem;
+          padding: 0 2rem;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>This is a {{ variable }}!</h1>
-    <h2>The GET parameter <code>plopp</code> is currently set to <code>{{ plopp }}</code>!</h2>
-    <form>
+<div class="container" style="max-width: 650px;">
+    <p>&nbsp;</p>
+    <h1>Welcome to<br /><strong>{{ title }}</strong>!</h1>
+    <h3>The GET parameter <code>plopp</code> is currently set to <code>{{ plopp }}</code>!</h3>
+    <h4><a href="/squirrel?plopp=pling&ding=ding">Try out query string parsing</a></h4>
+    <form action="/what" method="post">
         <fieldset>
-            <label for="nameField">Name</label>
-            <input type="text" placeholder="CJ Patoilo" id="nameField">
-            <label for="ageRangeField">Age Range</label>
-            <select id="ageRangeField">
-                <option value="0-13">0-13</option>
-                <option value="14-17">14-17</option>
-                <option value="18-23">18-23</option>
-                <option value="24+">24+</option>
-            </select>
-            <label for="commentField">Comment</label>
-            <textarea placeholder="Hi CJ öäå" id="commentField"></textarea>
-            <div class="float-right">
-                <input type="checkbox" id="confirmField">
-                <label class="label-inline" for="confirmField">Send a copy to yourself</label>
+            <label for="guessField">Please provide an initial guess (0-100) to get started</label>
+            <input type="number" min="0" max="100" placeholder="42" id="guessField">
+            <div style="text-align: center;">
+                <input class="button-primary button-large" type="submit" value="Send">
             </div>
-            <input class="button-primary" type="submit" value="Send">
         </fieldset>
     </form>
 </div>

@@ -54,6 +54,8 @@ public class HttpRequest extends GenericHttpPayload {
 		// Parse query string
 		if (url.length == 2)
 			req.queryString = UrlEncodedData.deserialize(url[1]);
+		else
+			req.queryString = new UrlEncodedData();
 
 		// Parse request cookies
 		String cookies = req.headers.get("Cookie");
